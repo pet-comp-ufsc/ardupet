@@ -56,7 +56,12 @@ def door_status():
 
 		return ''.join(['Door is ', status and 'unlocked' or 'locked']), 200
 
-	return '', 501
+	elif flask.request.method == 'PUT':
+		call = ''.join(['w', 'd', '\0'])
+
+		arduino.write(bytes(call, 'ASCII'))
+
+		return '', 204
 
 if __name__ == "__main__":
 	app.run()
