@@ -11,8 +11,11 @@ PUT /door -- unlock the door (unlocking relocks after some seconds)
 """
 
 import flask
+import serial
+import codes
 
 app = flask.Flask(__name__)
+arduino = serial.Serial('/dev/ttyACM0', 9600)
 
 @app.route('/lamp', methods=['GET'])
 def lamp_index():
