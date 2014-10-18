@@ -16,6 +16,8 @@ import serial
 app = flask.Flask(__name__)
 arduino = serial.Serial('/dev/ttyACM0', 9600)
 
+LAMP_COUNT = 4
+
 @app.route('/lamp', methods=['GET'])
 def lamp_index():
 	"""Return a listing of all lamps statuses."""
@@ -28,6 +30,9 @@ def lamp_status(lamp_id):
 	Keyword arguments:
 	id -- the id of the desired lamp.
 	"""
+	if lamp_id < 0 or lamp_id >= LAMP_COUNT:
+		flask.abort(404)
+
 	if flask.request.method == 'GET':
 		"""Bytes sent are: operation (r), target (l), id"""
 		call = ''.join(['r', 'l', chr(lamp_id)])
