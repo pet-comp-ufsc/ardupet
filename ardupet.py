@@ -12,7 +12,6 @@ PUT /door -- unlock the door (unlocking relocks after some seconds)
 
 import flask
 import serial
-import codes
 
 app = flask.Flask(__name__)
 arduino = serial.Serial('/dev/ttyACM0', 9600)
@@ -29,7 +28,6 @@ def lamp_status(lamp_id):
 	Keyword arguments:
 	id -- the id of the desired lamp.
 	"""
-	code = codes.codes['lamps'][lamp_id]
 	if flask.request.method == 'GET':
 		"""Bytes sent are: operation (r), target (l), id"""
 		call = ''.join(['r', 'l', chr(lamp_id)])
