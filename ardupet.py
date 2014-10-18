@@ -29,7 +29,18 @@ def lamp_status(id):
 	Keyword arguments:
 	id -- the id of the desired lamp.
 	"""
-	return '', 501
+	message = 'Lamp is '
+	code = codes.codes['lamps'][id]
+	if flask.request.method == 'GET':
+		"""Bytes sent are: operation (r), target (l), id"""
+		call = ''.join(['r', 'l', chr(id)])
+
+		arduino.write(bytes(call, 'ASCII'))
+		status = ord(arduino.read())
+
+		message = ''.join([message, status and 'on' or 'off'])
+
+	return message, 200
 
 @app.route('/door', methods=['GET', 'PUT'])
 def door_status():
