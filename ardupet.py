@@ -23,24 +23,21 @@ def lamp_index():
 	return '', 501
 
 @app.route('/lamp/<int:lamp_id>', methods=['GET', 'PUT'])
-def lamp_status(id):
+def lamp_status(lamp_id):
 	"""Read or update the status of a single lamp.
 
 	Keyword arguments:
 	id -- the id of the desired lamp.
 	"""
-	message = 'Lamp is '
-	code = codes.codes['lamps'][id]
+	code = codes.codes['lamps'][lamp_id]
 	if flask.request.method == 'GET':
 		"""Bytes sent are: operation (r), target (l), id"""
-		call = ''.join(['r', 'l', chr(id)])
+		call = ''.join(['r', 'l', chr(lamp_id)])
 
 		arduino.write(bytes(call, 'ASCII'))
 		status = ord(arduino.read())
 
-		message = ''.join([message, status and 'on' or 'off'])
-
-	return message, 200
+		return ''.join(['Lamp is ', status and 'on' or 'off']), 200
 
 @app.route('/door', methods=['GET', 'PUT'])
 def door_status():
