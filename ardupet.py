@@ -39,6 +39,13 @@ def lamp_status(lamp_id):
 
 		return ''.join(['Lamp is ', status and 'on' or 'off']), 200
 
+	elif flask.request.method == 'PUT':
+		call = ''.join(['w', 'l', chr(lamp_id)])
+
+		arduino.write(bytes(call, 'ASCII'))
+
+		return '', 204
+
 @app.route('/door', methods=['GET', 'PUT'])
 def door_status():
 	"""Read the status or update (unlock) the door."""
