@@ -47,6 +47,15 @@ def lamp_status(lamp_id):
 @app.route('/door', methods=['GET', 'PUT'])
 def door_status():
 	"""Read the status or update (unlock) the door."""
+	if flask.request.method == 'GET':
+		"""Bytes sent are: operation (r), target(d), none (ignored)"""
+		call = ''.join(['r', 'd', '\0'])
+
+		arduino.write(bytes(call, 'ASCII'))
+		status = ord(arduino.read())
+
+		return ''.join(['Door is ', status and 'unlocked' or 'locked']), 200
+
 	return '', 501
 
 if __name__ == "__main__":
