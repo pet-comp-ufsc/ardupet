@@ -40,7 +40,7 @@ def lamp_status(lamp_id):
 		arduino.write(bytes(call, 'ASCII'))
 		status = ord(arduino.read())
 
-		return ''.join(['Lamp is ', status and 'on' or 'off']), 200
+		return ''.join(['Lamp is ', 'on' if status else 'off']), 200
 
 	elif flask.request.method == 'PUT':
 		call = ''.join(['w', 'l', chr(lamp_id)])
@@ -59,7 +59,7 @@ def door_status():
 		arduino.write(bytes(call, 'ASCII'))
 		status = ord(arduino.read())
 
-		return ''.join(['Door is ', status and 'unlocked' or 'locked']), 200
+		return ''.join(['Door is ', 'unlocked' if status else 'locked']), 200
 
 	elif flask.request.method == 'PUT':
 		call = ''.join(['w', 'd', '\0'])
