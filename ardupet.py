@@ -16,7 +16,7 @@ import serial
 app = flask.Flask(__name__)
 arduino = serial.Serial('/dev/ttyACM0', 9600)
 
-LAMP_COUNT = 4
+LAMP_COUNT = 2 
 
 @app.route('/lamp', methods=['GET'])
 def lamp_index():
@@ -69,4 +69,4 @@ def door_status():
 		return '', 204
 
 if __name__ == "__main__":
-	app.run()
+	app.run(host='0.0.0.0')
